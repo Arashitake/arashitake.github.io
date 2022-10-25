@@ -1,0 +1,6 @@
+{
+  "bracketSameLine": true,
+  "vueIndentScriptAndStyle": true,
+  "tabWidth": 2,
+  "printWidth": 150
+}

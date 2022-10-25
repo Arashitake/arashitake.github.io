@@ -1,0 +1,23 @@
+{
+  "name": "leo",
+  "version": "1.0.0",
+  "author": "Arashitake",
+  "license": "MIT",
+  "scripts": {
+    "docs:dev": "vuepress dev docs --clean-cache",
+    "docs:build": "vuepress build docs --clean-cache"
+  },
+  "devDependencies": {
+    "@types/path-browserify": "^1.0.0",
+    "@vuepress/client": "2.0.0-beta.49",
+    "@vuepress/plugin-search": "2.0.0-beta.49",
+    "oh-vue-icons": "^1.0.0-rc3",
+    "path-browserify": "^1.0.1",
+    "sass": "^1.55.0",
+    "vue": "^3.2.39",
+    "vue-router": "^4.1.5",
+    "vuepress": "2.0.0-beta.49",
+    "vuepress-theme-gungnir": "^2.0.0-alpha.26"
+  },
+  "dependencies": {}
+}
