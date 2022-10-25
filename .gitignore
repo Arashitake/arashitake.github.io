@@ -1,5 +1,4 @@
 .temp
 .cache
 node_modules/
-# docs/.vuepress/theme/
-# docs/.vuepress/dist/
+docs/.vuepress/dist/
