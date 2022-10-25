@@ -13,8 +13,7 @@ export interface GungnirThemePageFrontmatter {
   search?: boolean;
 }
 
-export interface GungnirThemeNormalPageFrontmatter
-  extends GungnirThemePageFrontmatter {
+export interface GungnirThemeNormalPageFrontmatter extends GungnirThemePageFrontmatter {
   title?: string;
   editLink?: boolean;
   editLinkPattern?: string;
@@ -27,8 +26,8 @@ export interface GungnirThemeNormalPageFrontmatter
   giscus?: boolean;
 }
 
-export interface GungnirThemePostFrontmatter
-  extends GungnirThemePageFrontmatter {
+// posts
+export interface GungnirThemePostFrontmatter extends GungnirThemePageFrontmatter {
   title: string;
   subtitle?: string;
   editLink?: boolean;
@@ -46,6 +45,7 @@ export interface GungnirThemePostFrontmatter
   hide?: boolean;
 }
 
+// links
 interface LinkItem {
   sitename: string;
   url: string;
@@ -55,11 +55,49 @@ interface LinkItem {
 
 interface LinkGroup {
   title: string;
-  item: Array<LinkItem>;
+  items: Array<LinkItem>;
 }
 
-export interface GungnirThemeLinksPageFrontmatter
-  extends GungnirThemePageFrontmatter {
+export interface GungnirThemeLinksPageFrontmatter extends GungnirThemePageFrontmatter {
   title?: string;
   links: Array<LinkGroup>;
 }
+
+// categories
+interface CateItem {
+  catename: string;
+  url: string;
+  img: string;
+  desc: string;
+}
+
+export interface CateGroup {
+  title: string;
+  items: Array<CateItem>;
+}
+
+export interface GungnirThemeCatePageFrontmatter extends GungnirThemePageFrontmatter {
+  title?: string;
+  cates?: Array<CateGroup>;
+  books?: Array<BookGroup>;
+}
+
+// book
+interface BookItem {
+  bookname: string;
+  url: string;
+  img: string;
+  desc?: string;
+  author?: string;
+}
+
+export interface BookGroup {
+  title: string;
+  items: Array<BookItem>;
+}
+export interface GungnirThemeCatePageFrontmatter extends GungnirThemePageFrontmatter {
+  title?: string;
+  books?: Array<BookGroup>;
+}
+
+// cartoon

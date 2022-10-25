@@ -1,47 +1,54 @@
 ---
 layout: Categories
 title: Categories
-links:
-  # - title: Live Demos
-  #   items:
-  #     - sitename: ME?
-  #       url: /abs/basic/intro.html
-  #       img: /img/links/me.png
-  #       desc: My blog
+cates:
   - title: Basic
     items:
-      - sitename: HTML
+      - catename: HTML
         url: /abs/basic/intro.html
-        img: /img/links/html.png
+        img: /img/cates/html.png
         desc: HTML
-      - sitename: CSS
+      - catename: CSS
         url: /abs/basic/intro.html
-        img: /img/links/css.png
+        img: /img/cates/css.png
         desc: CSS
-      - sitename: JS
+      - catename: JS
         url: /note/JS/01_JS高级/01.EventLoop.html
-        img: /img/links/js.png
+        img: /img/cates/js.png
         desc: about JS
-      - sitename: TS
+      - catename: TS
         url: /abs/basic/intro.html
-        img: /img/links/ts.png
+        img: /img/cates/ts.png
         desc: learning TypeScript
-      - sitename: theory
+      - catename: theorytheorytheory
         url: /abs/basic/intro.html
-        img: /img/links/network.png
-        desc: network & browser
-      - sitename: data
+        img: /img/cates/network.png
+        desc: network & browser network & browser network & browser
+      - catename: data
         url: /abs/basic/intro.html
-        img: /img/links/avatar.jpg
+        img: /img/cates/avatar.jpg
         desc: 数据结构和算法
   - title: Frame
     items:
-      - sitename: vue
+      - catename: vue
         url: /note/vue/interview/00.vue相关面试知识点集合.html
-        img: /img/links/vue.png
+        img: /img/cates/vue.png
         desc: vue3 and etc.
-      - sitename: react
+      - catename: react
         url: /abs/basic/intro.html
-        img: /img/links/react.png
+        img: /img/cates/react.png
         desc: react and etc.
+  - title: Others
+    items:
+      - catename: blogs
+        url: /note/blogs/Function/01.doSearch.html
+        img: /img/cates/vue.png
+        desc: blogs update
+books:
+  - title: Professional Books - Reading Notes
+    items:
+      - bookname: 红宝书
+        url: /abs/basic/intro.html
+        img: /img/cates/books-hbs.jpg
+        desc: JavaScript 高级程序设计
 ---

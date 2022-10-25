@@ -12,11 +12,6 @@ export const navbar: NavbarConfig = [
     icon: "fa-tag",
   },
   // {
-  //   text: "links",
-  //   link: "/links/",
-  //   icon: "fa-satellite-dish",
-  // },
-  // {
   //   text: "Posts",
   //   link: "/pages/posts/",
   //   icon: "fa-tag",
@@ -30,6 +25,11 @@ export const navbar: NavbarConfig = [
     text: "Notes",
     link: "/pages/notes/",
     icon: "ri-book-2-fill",
+  },
+  {
+    text: "links",
+    link: "/pages/links/",
+    icon: "fa-satellite-dish",
   },
   {
     text: "About",

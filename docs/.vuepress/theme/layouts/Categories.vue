@@ -2,45 +2,30 @@
   <Common>
     <template #page>
       <PageHeader :page-info="pageInfo" />
-      <div class="links-wrapper">
-        <div v-for="(group, groupId) in frontmatter.links" :key="`link-group-${groupId}`" class="link-section">
-          <h2>{{ group.title }}</h2>
-          <div class="link-group">
-            <div v-for="(item, itemId) in group.items" :key="`link-${itemId}`" class="link-item">
-              <div class="content">
-                <a :href="item.url" target="_blank" rel="noopener noreferrer">
-                  <img :src="$withBase(item.img)" />
-                  <span class="sitename">
-                    {{ item.sitename }}
-                  </span>
-                  <div class="desc">
-                    {{ item.desc }}
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CatesWrapper v-if="frontmatter.cates" :catesData="frontmatter.cates" />
+      <BooksWrapper v-if="frontmatter.books" :booksData="frontmatter.books" />
     </template>
   </Common>
 </template>
-
+      
 <script setup lang="ts">
-import Common from "@theme/Common.vue";
+import Common from "../components/Common.vue";
 import PageHeader from "../components/PageHeader.vue";
+import CatesWrapper from "../components/CatesWrapper.vue";
+import BooksWrapper from '../components/BooksWrapper.vue';
 import { usePageFrontmatter } from "@vuepress/client";
 import { computed } from "vue";
 import type {
-  GungnirThemeLinksPageFrontmatter,
-  GungnirThemePageOptions
-} from "../../shared";
-import { useThemeLocaleData } from "../composables";
-import { categoriesPageInfo } from '../../config/pageInfo.ts';
+  GungnirThemeCatePageFrontmatter,
+} from "../shared";
+import { categoriesPageInfo } from '../../config/pageInfo';
 
-const themeLocale = useThemeLocaleData();
-const frontmatter = usePageFrontmatter<GungnirThemeLinksPageFrontmatter>();
+const frontmatter = usePageFrontmatter<GungnirThemeCatePageFrontmatter>();
 
 const pageInfo = computed(() => categoriesPageInfo);
 
 </script>
+
+<style lang="scss" scoped>
+
+</style>

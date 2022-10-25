@@ -9,7 +9,7 @@
             <div v-for="(item, itemId) in group.items" :key="`link-${itemId}`" class="link-item">
               <div class="content">
                 <a :href="item.url" target="_blank" rel="noopener noreferrer">
-                  <img :src="$withBase(item.img)" />
+                  <img :src="withBase(item.img)" />
                   <span class="sitename">
                     {{ item.sitename }}
                   </span>
@@ -29,12 +29,12 @@
 <script setup lang="ts">
 import Common from "@theme/Common.vue";
 import PageHeader from "../components/PageHeader.vue";
-import { usePageFrontmatter } from "@vuepress/client";
+import { usePageFrontmatter, withBase } from "@vuepress/client";
 import { computed } from "vue";
 import type {
   GungnirThemeLinksPageFrontmatter,
   GungnirThemePageOptions
-} from "../../shared";
+} from "../shared";
 import { useThemeLocaleData } from "../composables";
 
 const themeLocale = useThemeLocaleData();

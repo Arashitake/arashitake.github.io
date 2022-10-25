@@ -6,18 +6,18 @@
         <CategoryList :data="catelist" />
       </div> -->
       <ul class="notes-cate">
-        <li :class="(thisCate == '') ? 'active' : 'none'" :style="{background: cateColorMap.get('all')}"
+        <li :class="(thisCate == '') ? 'active' : 'none'" :style="{ background: cateColorMap.get('all') }"
           @click="getCate()">
           <div>
-            <span>{{notelist.length}}</span>
+            <span>{{ notelist.length }}</span>
             <p>all</p>
           </div>
         </li>
         <li :class="(thisCate == item[0]) ? 'active' : 'none'" v-for="(item, index) in catelist" :key="index"
-          :style="{background: cateColorMap.get(item[0])}" @click="getCate(item[0])">
+          :style="{ background: cateColorMap.get(item[0]) }" @click="getCate(item[0])">
           <div>
-            <span>{{item[1]}}</span>
-            <p>{{item[0]}}</p>
+            <span>{{ item[1] }}</span>
+            <p>{{ item[0] }}</p>
           </div>
         </li>
       </ul>
@@ -30,20 +30,18 @@
 </template>
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import Common from "@theme/Common.vue";
+import Common from "../components/Common.vue";
 import PageHeader from "../components/PageHeader.vue";
 import ArticleList from "../components/ArticleList.vue";
-import CategoryList from '../components/CategoryList.vue';
-import { usePageFrontmatter, usePageData } from "@vuepress/client";
-import type { notelistType, notelistByYearType } from "../../utils/timelineType.d.ts";
+import { usePageData } from "@vuepress/client";
+import type { notelistType } from "../../utils/timelineType";
 import type {
   GungnirThemeLinksPageFrontmatter,
   GungnirThemePageOptions
 } from "../shared";
 import { allListFilterByYear } from '../utils';
-import { cateColorMap } from '../../utils/cateColors.ts';
-import { notesPageInfo } from '../../config/pageInfo.ts';
+import { cateColorMap } from '../../utils/cateColors';
+import { notesPageInfo } from '../../config/pageInfo';
 
 // 头部图片和文字
 const pageInfo = computed(() => notesPageInfo);
@@ -59,7 +57,7 @@ const getCate = (item: string = '') => {
 }
 
 // 通过当前的 category 筛选出来的数据
-const noteFilterByCate = (list: notelistType, cate?: string) => {
+const noteFilterByCate = (list: notelistType[]) => {
   if (!thisCate.value) {
     return list;
   }
@@ -70,6 +68,8 @@ const noteFilterByCate = (list: notelistType, cate?: string) => {
       return false;
     }
   });
+  console.log({ newlist });
+
   return newlist;
 }
 </script>

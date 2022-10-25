@@ -4,17 +4,17 @@
 
     <div v-for="(mapItem, mapIndex) in item.data" :key="mapIndex" class="notelist">
       <div class="month-icon">
-        {{convertMonthFormat(mapItem[0])}}
+        {{ convertMonthFormat(mapItem[0]) }}
       </div>
       <div v-for="(subItem, subIndex) in mapItem[1]" :key="subIndex" class="notelist-month">
         <div class="item-icon"></div>
         <RouterLink :to="subItem.path">
           <div class="note-items">
             <div class="note-date">
-              <img v-if="subItem.frontmatter.headerImage" :src="subItem.frontmatter.headerImage" alt="" />
+              <img v-if="subItem.frontmatter.headerImage" :src="withBase(subItem.frontmatter.headerImage)" alt="" />
               <p>
-                <span>{{subItem.date.slice(subItem.date.indexOf('-')+1, subItem.date.lastIndexOf('-'))}}</span> /
-                {{subItem.date.slice(subItem.date.lastIndexOf('-')+1)}}
+                <span>{{ subItem.date.slice(subItem.date.indexOf('-') + 1, subItem.date.lastIndexOf('-')) }}</span> /
+                {{ subItem.date.slice(subItem.date.lastIndexOf('-') + 1) }}
               </p>
             </div>
             <div class="note-content">
@@ -33,12 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue";
-import type { notelistType } from "../../utils/timelineType.d.ts";
-import type { GungnirThemePostData } from "../shared";
+import type { notelistByYearType } from "../../utils/timelineType";
+import { withBase } from "@vuepress/client";
 
 defineProps<{
-  data: Array<notelistType>[]
+  data: Array<notelistByYearType>
 }>();
 
 // 字符串
