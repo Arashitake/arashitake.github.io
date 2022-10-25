@@ -1,0 +1,36 @@
+name: docs
+
+on:
+  # 每当 push 到 master 分支时触发部署
+  push:
+    branches: [master]
+  # 手动触发部署
+  # workflow_dispatch:
+
+# 任务
+jobs:
+  build-and-deploy:
+    # 服务器环境：最新版 Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      # 生成静态文件
+      - name: Build
+        run: npm install && npm run docs:build
+
+      # 部署到 GitHub Pages
+      - name: Deploy
+        # 使用别人写好的一个 action
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          # 这里的 ACCESS_TOKEN 名字需要和下文中的相对应
+          ACCESS_TOKEN: ${{ secrets.leoblogs }}
+          # 打包后的文件部署到哪个分支上
+          BRANCH: blogs
+          # 打包后的文件在哪里
+          FOLDER: /
