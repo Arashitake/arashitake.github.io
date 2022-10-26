@@ -72,6 +72,23 @@ export const gungnirThemeOptions = gungnirTheme({
   searchIcon: "bi-search",
   themePlugins: {
     search: false, // 取消自带的搜索
+    katex: true, // 数学公式
+    chartjs: {
+      // JavaScript 图表库 Chart.js
+      token: "chart",
+    },
+    mermaid: {
+      token: "mermaid",
+      theme: "default", // 默认："default"
+      darkTheme: "dark", // 默认："dark"
+    },
+    mdPlus: {
+      // all: true, // 全部启用（默认：false）
+      footnote: true, // 脚注
+      mark: true, // 高亮标记
+      sub: true, // 下标
+      sup: true, // 上标
+    },
     container: {},
   },
 });
