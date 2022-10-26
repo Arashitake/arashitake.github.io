@@ -13,31 +13,31 @@
           <ul>
             <li>
               <p>Posts</p>
-              <span>{{page.listsNum}}</span>
+              <span>{{ page.listsNum }}</span>
             </li>
             <li>
               <p>Notes</p>
-              <span>{{page.notesNum}}</span>
+              <span>{{ page.notesNum }}</span>
             </li>
             <li>
               <p>Categories</p>
-              <span>{{page.catesNum}}</span>
+              <span>{{ page.catesNum }}</span>
             </li>
           </ul>
           <div class="panel-today">
             <div class="date-year">
               <VIcon name="ri-book-2-fill" />
-              {{new Date().getFullYear()}}
+              {{ new Date().getFullYear() }}
             </div>
             <p>
-              <b>{{new Date().getMonth()+1}}</b> / {{new Date().getDate()}}
+              <b>{{ new Date().getMonth() + 1 }}</b> / {{ new Date().getDate() }}
             </p>
             <div class="date-week">
               <i class="v-icon">
                 <VIcon v-if="new Date().getDay() > 5" name="dd-interests-twotone" />
                 <VIcon v-if="new Date().getDay() <= 5" name="bi-person-workspace" />
               </i>
-              <span>{{getWeek(new Date().getDay())}}</span>
+              <span>{{ getWeek(new Date().getDay()) }}</span>
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
             <li v-for="(navItem, navIndex) in navbar.navbar" :key="navIndex">
               <RouterLink :to="navItem.link">
                 <VIcon :name="navItem.icon" />
-                <span>{{navItem.text}}</span>
+                <span>{{ navItem.text }}</span>
               </RouterLink>
             </li>
           </ul>
@@ -63,20 +63,20 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import ArticleList from "../components/ArticleList.vue";
-import type { PersonalConfig } from "../../shared";
+import type { PersonalConfig, HomePageData } from "../shared";
 import { useThemeLocaleData } from "../composables";
 import { allListFilterByYear } from '../utils';
-import { navbar } from '../../config/index.ts';
+import { navbar } from '../../config/index';
 import { withBase } from "@vuepress/client";
 import { usePageData } from "@vuepress/client";
-import { requestWeather } from '../../utils/requestWeather.ts';
 
 // person info
 const themeLocale = useThemeLocaleData();
 const personalInfo = themeLocale.value.personalInfo as PersonalConfig;
 
 // all the article list
-const page = usePageData();
+const page = usePageData<HomePageData>();
+console.log(page.value);
 const alllist = ref(page.value.lists || []);
 // console.log(alllist.value);
 // console.log(page.value);
@@ -86,7 +86,7 @@ const alllist = ref(page.value.lists || []);
 let weatherUrl = 'http://www.weather.com.cn/data/cityinfo/101280106';
 
 // get Date week
-const getWeek = (weekNum) => {
+const getWeek = (weekNum: number) => {
   let weekStr = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
   let weekMap = new Map();
   for (let i = 0; i < 7; i++) {

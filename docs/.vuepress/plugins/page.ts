@@ -1,5 +1,4 @@
 import { Page } from "@vuepress/core";
-import { usePageData } from "@vuepress/client";
 import type { notelistType } from "../utils/timelineType";
 
 /**
@@ -57,7 +56,7 @@ const excludePage = (item: Page, pathType: string, arr: notelistType[]) => {
 const filterPage = (app: { pages: Page[] }) => {
   const notes: notelistType[] = [];
   const lists: notelistType[] = [];
-  const cateNumberMap = new Map(); // 每个分类的数量
+  const cateNumberMap = new Map<string, number>(); // 每个分类的数量
   let notesIndex = 0,
     homeIndex = 0;
   app.pages.forEach((item: Page, index) => {
@@ -69,7 +68,8 @@ const filterPage = (app: { pages: Page[] }) => {
       let cate = item.data.path.slice(6).slice(0, item.data.path.slice(6).indexOf("/"));
 
       if (cateNumberMap.get(cate)) {
-        cateNumberMap.set(cate, cateNumberMap.get(cate) + 1);
+        let temp = cateNumberMap.get(cate);
+        cateNumberMap.set(cate, (temp == undefined ? 0 : temp) + 1);
       } else {
         cateNumberMap.set(cate, 1);
       }
@@ -90,9 +90,9 @@ const filterPage = (app: { pages: Page[] }) => {
   // 传递给 /
   if (app.pages[homeIndex].path === "/") {
     app.pages[homeIndex].data["lists"] = lists;
-    app.pages[homeIndex]["listsNum"] = lists.length - notes.length;
-    app.pages[homeIndex]["notesNum"] = notes.length;
-    app.pages[homeIndex]["catesNum"] = [...cateNumberMap].length;
+    app.pages[homeIndex].data["listsNum"] = lists.length - notes.length;
+    app.pages[homeIndex].data["notesNum"] = notes.length;
+    app.pages[homeIndex].data["catesNum"] = [...cateNumberMap].length;
     // app.pages[homeIndex].data["pageInfo"] = {
     //   listsNum: lists.length - notes.length,
     //   notesNum: notes.length,

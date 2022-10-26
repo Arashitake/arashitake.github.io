@@ -23,8 +23,8 @@ export const categoriesPageInfo: GungnirThemePageOptions = {
   title: "Categories",
   subtitle: "book",
   bgImage: {
-    path: "/img/pages/links.jpg",
-    mask: "rgba(64, 118, 190, 0.5)",
+    path: "/img/pages/004.jpg",
+    mask: "rgba(64, 118, 190, 0.4)",
   },
 };
 
@@ -32,7 +32,7 @@ export const aboutPageInfo: GungnirThemePageOptions = {
   title: "About",
   subtitle: "About me.",
   bgImage: {
-    path: "/img/homebg/3.jpg",
-    mask: "rgba(64, 118, 190, 0.5)",
+    path: "/img/pages/001.jpg",
+    mask: "rgba(40, 57, 101, 0.2)",
   },
 };

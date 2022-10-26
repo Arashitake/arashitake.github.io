@@ -35,10 +35,7 @@ import PageHeader from "../components/PageHeader.vue";
 import ArticleList from "../components/ArticleList.vue";
 import { usePageData } from "@vuepress/client";
 import type { notelistType } from "../../utils/timelineType";
-import type {
-  GungnirThemeLinksPageFrontmatter,
-  GungnirThemePageOptions
-} from "../shared";
+import type { NotesPageData } from "../shared";
 import { allListFilterByYear } from '../utils';
 import { cateColorMap } from '../../utils/cateColors';
 import { notesPageInfo } from '../../config/pageInfo';
@@ -46,7 +43,7 @@ import { notesPageInfo } from '../../config/pageInfo';
 // 头部图片和文字
 const pageInfo = computed(() => notesPageInfo);
 
-const page = usePageData();
+const page = usePageData<NotesPageData>();
 const notelist = ref(page.value.notes || []);
 const catelist = ref(page.value.cateMap || []);
 
@@ -68,8 +65,6 @@ const noteFilterByCate = (list: notelistType[]) => {
       return false;
     }
   });
-  console.log({ newlist });
-
   return newlist;
 }
 </script>

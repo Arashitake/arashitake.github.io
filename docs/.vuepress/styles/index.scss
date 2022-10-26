@@ -30,6 +30,13 @@
   }
 }
 
+.site-name {
+  color: #fff !important;
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
 .subtitle {
   margin-top: 28px;
 }

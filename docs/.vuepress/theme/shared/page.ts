@@ -1,10 +1,23 @@
 import type { ReadingTime } from "@renovamen/vuepress-plugin-reading-time";
 import type { GitPluginPageData } from "@vuepress/plugin-git";
+import { notelistType } from "../../utils/timelineType";
 import type { NavLink, SidebarConfig } from "./nav";
 
 export interface GungnirThemePageData extends GitPluginPageData {
   filePathRelative: string | null;
   readingTime?: ReadingTime;
+}
+
+export interface HomePageData extends GitPluginPageData {
+  lists: notelistType[];
+  listsNum: number;
+  notesNum: number;
+  catesNum: number;
+}
+
+export interface NotesPageData extends GitPluginPageData {
+  notes: notelistType[];
+  cateMap: Map<string, number>;
 }
 
 export interface GungnirThemePageFrontmatter {
