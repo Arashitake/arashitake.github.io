@@ -11,5 +11,5 @@ cateColorMap.set("vue", "#41b883");
 cateColorMap.set("react", "#61dafb");
 cateColorMap.set("blogs", "#ede6d3");
 cateColorMap.set("DataStructure", "#f29790");
-
+cateColorMap.set("Algorithm", "#e8a885");
 // #e5bb88 #e4e4e4 #e9d2b2 #deddd9 #b2b49e #c8c5b2 #e8a885
