@@ -13,7 +13,7 @@ export const gungnirThemeOptions = gungnirTheme({
     description: "Learning how to love.",
     // 社交平台
     sns: {
-      github: "https://github.com/Arashitake",
+      github: "Arashitake",
       email: "Arashitake@163.com",
     },
   },
@@ -61,7 +61,7 @@ export const gungnirThemeOptions = gungnirTheme({
     },
   },
   footer: `
-    &copy; <a href="https://github.com/Renovamen" target="_blank">Arashitake</a> 2020-2022
+    &copy; <a href="https://github.com/Arashitake" target="_blank">Arashitake</a> 2022
     <br>
     Powered by <a href="https://v2.vuepress.vuejs.org" target="_blank">VuePress</a> &
     <a href="https://github.com/Renovamen/vuepress-theme-gungnir" target="_blank">Gungnir</a>
