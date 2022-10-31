@@ -14,7 +14,7 @@
           </div>
         </li>
         <li :class="(thisCate == item[0]) ? 'active' : 'none'" v-for="(item, index) in catelist" :key="index"
-          :style="{ background: cateColorMap.get(item[0]) }" @click="getCate(item[0])">
+          :style="[{ background: cateColorMap.get(item[0]) }]" @click="getCate(item[0])">
           <div>
             <span>{{ item[1] }}</span>
             <p>{{ item[0] }}</p>
@@ -85,7 +85,7 @@ const noteFilterByCate = (list: notelistType[]) => {
   list-style: none;
 
   .active {
-    color: #377bb5;
+    color: var(--c-text-accent);
     background: #f3f5f5 !important;
     font-weight: bold;
     box-shadow: 0 2px 8px 0 rgba(27, 35, 47, 0.5);
@@ -94,7 +94,7 @@ const noteFilterByCate = (list: notelistType[]) => {
   }
 
   .none {
-    color: #111;
+    color: var(--c-text);
   }
 
   li {

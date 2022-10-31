@@ -54,6 +54,7 @@ const getAllDirs = (dirname: string = "docs", mypath: string = ".", unDirInclude
       for (let d of dirs) {
         result[item].push({
           text: d,
+          collapsible: true, // 可折叠
           children: getAllFiles(dirname, temp + "/" + d, SuffixIncludes),
         });
       }

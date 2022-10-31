@@ -99,7 +99,9 @@ export interface GungnirThemeCatePageFrontmatter extends GungnirThemePageFrontma
 interface BookItem {
   bookname: string;
   url: string;
-  img: string;
+  img?: string;
+  bctext?: string;
+  bgcolor?: string;
   desc?: string;
   author?: string;
 }

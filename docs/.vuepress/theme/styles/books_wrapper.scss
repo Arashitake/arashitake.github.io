@@ -1,18 +1,20 @@
 .books-wrapper {
-  padding: 10px 0 50px;
+  padding-bottom: 50px;
 
   .book-section {
     width: 60%;
     max-width: 745px;
     margin: 0 auto;
-
+    .books-title {
+      border: 1px solid var(--c-bg);
+    }
     h2 {
       font-weight: 400;
       font-size: 18px;
       border-left: 3px solid var(--c-text-accent);
       padding-left: 10px;
+      margin-top: 65px;
       margin-left: 5px;
-      margin-top: 50px;
     }
 
     .book-group {
@@ -52,6 +54,8 @@
         }
 
         & > a .book-cover {
+          position: relative;
+          margin: 0 auto;
           max-width: 100%;
           width: 108px;
           height: 136px;
@@ -61,6 +65,25 @@
           -moz-transition: all ease 0.3s;
           -o-transition: all ease 0.3s;
           -ms-transition: all ease 0.3s;
+          overflow: hidden;
+          & > img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+          & > .book-cover-p {
+            position: absolute;
+            margin: 0;
+            padding: 6px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #1f1f1f;
+            border: 1px solid var(--c-text-accent);
+          }
         }
 
         & > a span.bookname {
@@ -75,11 +98,10 @@
 
         & > .desc {
           display: -webkit-box;
-          margin-bottom: 8px;
-          padding: 8px 6px;
-          height: 44px;
+          padding: 8px 6px 0;
+          height: 36px;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 2;
           overflow: hidden;
           color: var(--c-text-sub);
           font-size: 12px;

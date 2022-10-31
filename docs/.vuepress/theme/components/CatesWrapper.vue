@@ -1,7 +1,9 @@
 <template>
   <div class="cates-wrapper">
     <div v-for="(group, groupId) in catesData" :key="`link-group-${groupId}`" class="cate-section">
-      <h2>{{ group.title }}</h2>
+      <div :id="group.title" class="cates-title">
+        <h2>{{ group.title }}</h2>
+      </div>
       <div class="cate-group">
         <div v-for="(item, itemId) in group.items" :key="`link-${itemId}`" class="cate-item">
           <div class="content">
