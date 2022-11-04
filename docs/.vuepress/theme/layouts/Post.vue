@@ -129,9 +129,6 @@ onBeforeUnmount(() => {
 // pager
 const { post } = useBlog();
 
-console.log('val: ', post.value);
-
-
 const pagerData = computed(() => {
   if (!post.value) return {};
 

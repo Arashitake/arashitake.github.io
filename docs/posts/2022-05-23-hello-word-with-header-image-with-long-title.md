@@ -6,6 +6,7 @@ author: Renovamen
 date: 2022-05-23
 useHeaderImage: true
 headerImage: /img/in-post/2021-12-24/header.jpg
+headerMask: rgba(40, 57, 101, .4)
 giscus: false
 catalog: true
 tags:

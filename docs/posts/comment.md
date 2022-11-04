@@ -6,6 +6,7 @@ author: Renovamen
 date: 2021-03-26
 useHeaderImage: true
 headerImage: /img/homebg/1.jpg
+headerMask: rgba(40, 57, 101, .4)
 catalog: true
 tags:
   - test

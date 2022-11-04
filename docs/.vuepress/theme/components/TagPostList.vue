@@ -10,8 +10,10 @@
           </div>
           <RouterLink :to="subItem.path">
             <div class="post-content">
-              <img v-if="subItem.info.headerImage" :src="subItem.info.headerImage" :alt="subItem.info.title" />
-              <div>
+              <div class="post-img">
+                <img v-if="subItem.info.headerImage" :src="subItem.info.headerImage" :alt="subItem.info.title" />
+              </div>
+              <div class="post-text">
                 <p class="title">
                   {{ subItem.info.title }}
                 </p>
@@ -21,7 +23,7 @@
               </div>
               <ul>
                 <li v-for="(tagItem, tagIndex) in subItem.info.tags" :key="tagIndex">
-                  {{tagItem}}
+                  {{ tagItem }}
                 </li>
               </ul>
             </div>
@@ -164,16 +166,22 @@ section {
       box-shadow: 0 2px 8px 0 rgba(27, 35, 47, 0.25);
     }
 
-    img {
+    .post-img {
       position: absolute;
-      top: 12px;
+      top: 16px;
       left: 20px;
-      width: 221px;
-      height: 131px;
+      width: 220px;
+      height: 124px;
       border-radius: 10px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
 
-    &>div {
+    .post-text {
       position: absolute;
       top: 8px;
       left: 272px;

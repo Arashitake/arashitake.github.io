@@ -6,6 +6,7 @@ layout: Post
 author: Renovamen
 useHeaderImage: true
 headerImage: /img/homebg/2.jpg
+headerMask: rgba(40, 57, 101, .4)
 catalog: true
 tags:
   - test2

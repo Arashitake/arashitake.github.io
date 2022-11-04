@@ -34,7 +34,7 @@ console.log(addCurry2(1)(2)(3).toString()); // 6
 console.log(addCurry2(1, 2)(3).toString()); // 6
 console.log(addCurry2(1, 2, 3)(4)(5).toString()); // 15
 
-// methods 3: arguments 写法
+// methods 3: arguments
 function addCurry3() {
   let arr = [...arguments];
   let fn = function () {
@@ -49,3 +49,48 @@ function addCurry3() {
 
 console.log(addCurry3(1)(2)(3).toString()); // 6
 console.log(addCurry3(1, 2, 3)(4)(5).toString()); // 15
+
+// 缓存判断
+const handleOption1 = (param) => {
+  console.log("每次调用 handleOption 都要执行 if...else...");
+  if (param === "A") {
+    console.log("A");
+  } else {
+    console.log("others");
+  }
+};
+
+handleOption1("A");
+handleOption1("A");
+handleOption1("A");
+
+/**
+ * 每次调用 handleOption 都要执行 if...else...
+ * A
+ * 每次调用 handleOption 都要执行 if...else...
+ * A
+ * 每次调用 handleOption 都要执行 if...else...
+ * A
+ */
+
+const handleOption2 = (param) => {
+  console.log("从始至终只执行了一次 if...else...");
+  if (param === "A") {
+    return () => console.log("A");
+  } else {
+    return () => console.log("other");
+  }
+};
+
+const temp = handleOption2("A");
+
+temp();
+temp();
+temp();
+
+/**
+ * 从始至终只执行了一次 if...else...
+ * A
+ * A
+ * A
+ */
