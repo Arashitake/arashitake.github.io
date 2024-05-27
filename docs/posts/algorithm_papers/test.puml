@@ -1,0 +1,53 @@
+!define MathJaxURL https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML
+
+@startuml AAA
+Alice -> Bob: 传送文件请求
+Bob -> Alice: 带有文件大小的确认消息
+Bob -> FTPServer: 请求下载文件
+FTPServer -> Bob: 发送文件
+Bob -> Alice: 文件下载完成的消息
+@enduml
+
+@startuml 类图
+class Animal{
+- age: int
+- name: string
++ eat()
++ sleep()
++ makeSound()
+}
+
+class Dog{
+- breed: string
++ wagTail()
+}
+
+class Cat{
+- furColor: string
++ purr()
+}
+
+Animal <|-- Dog
+Animal <|-- Cat
+@enduml
+
+@startuml LaTex
+class Math{
+  + pi:double
+}
+
+class Circle{
+  - radius:double
+  + area():double
+}
+
+Math <|-- Circle
+
+Circle -> Math : pi = 3.14...
+
+class Test{
+  + main(String[] args)
+}
+Test -> Circle : c = new Circle()
+Test -> c : area() tex(\pi^2S)
+@enduml

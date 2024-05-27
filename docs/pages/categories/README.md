@@ -57,9 +57,24 @@ books:
         desc: JavaScript 高级程序设计
   - title: ⚜️ Language Learning
     items:
-      - bookname: "English Word"
-        url: /note/EnglishWord/RootAffix/01.English_Word.html
-        bctext: Root Affix
+      - bookname: "Collocation"
+        url: /note/EnglishWord/Collocation/01.cet6_collocation.html
+        bctext: "Word Group"
         bgcolor: "#fce09f"
-        desc: 词根词缀
+        desc: 英语词组
+      - bookname: "Word"
+        url: /note/EnglishWord/RootAffix/01.English_Word.html
+        bctext: "Root Affix"
+        bgcolor: "#fce09f"
+        desc: 英语词根词缀
+      - bookname: "Writing"
+        url: /note/EnglishWriting/EssayTemplate/01.原因分析型.html
+        bctext: "EN WRTE"
+        bgcolor: "#fce09f"
+        desc: 英语写作
+      - bookname: "Translate"
+        url: /note/EnglishWriting/Translate/01.Translate_Skills.html
+        bctext: "EN TRANS"
+        bgcolor: "#fce09f"
+        desc: 中翻英
 ---

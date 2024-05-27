@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS实操</title>
+    <style lang="css">
+      html,
+      body {
+        scroll-behavior: smooth;
+      }
+
+      @-webkit-keyframes typing {
+        from {
+          width: 0;
+        }
+      }
+      @-webkit-keyframes blink-caret {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      h1 {
+        font: bold 300% Consolas, Monaco, monospace;
+        border-right: 0.1em solid black;
+        width: 14.5em;
+        width: 18ch;
+        margin: 2em 1em;
+        white-space: nowrap;
+        overflow: hidden;
+        -webkit-animation: typing 7s steps(21, end), blink-caret 0.5s step-end infinite alternate;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>欢迎来到码上掘金</h1>
+
+    <a id="top" href="#bottom">Scroll to bottom</a>
+    <div>
+      <p>hello JUEJIN</p>
+      <p>hello JUEJIN</p>
+      <p>hello JUEJIN</p>
+    </div>
+    <a id="bottom" href="#top">Scroll to top</a>
+  </body>
+</html>
