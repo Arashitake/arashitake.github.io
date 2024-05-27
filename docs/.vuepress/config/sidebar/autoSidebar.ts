@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path-browserify";
 import type { SidebarConfig } from "vuepress-theme-gungnir";
+import type { SidebarConfigArray } from "../../theme/shared/nav.ts";
 
 /**
  * @param {String} rpath 目录路径
@@ -80,7 +81,7 @@ export const getAllDirsFiles = (
 
   let res: SidebarConfig = {};
   Object.entries(dirs).forEach(([key, val]) => {
-    res["/" + dirname + "/" + key + "/"] = val;
+    res["/" + dirname + "/" + key + "/"] = val as SidebarConfigArray;
   });
 
   return res;

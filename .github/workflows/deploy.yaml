@@ -34,7 +34,7 @@ jobs:
 
       # 打包并生成静态文件
       - name: Build site
-        run: yarn && yarn docs:build
+        run: yarn docs:build
 
       # 推送静态文件到分支
       - name: Deploy

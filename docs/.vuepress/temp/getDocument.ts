@@ -2,6 +2,7 @@ import path from "path-browserify";
 // import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import type { SidebarConfigArray } from "../theme/shared/nav";
 
 // const __filenameNew = fileURLToPath(import.meta.url);
 
@@ -236,7 +237,7 @@ export const getAllDirsFiles = (mypath: string, unDirIncludes: Array<string>, Su
   let note = "/note/";
   let res: SidebarConfig = {};
   Object.entries(dirs).forEach(([key, val]) => {
-    res[note + key + "/"] = val;
+    res[note + key + "/"] = val as SidebarConfigArray;
   });
   console.log(JSON.stringify(res));
   console.log(JSON.stringify(res["/note/JS/"]) === JSON.stringify(sidebar["/note/JS/"]));
