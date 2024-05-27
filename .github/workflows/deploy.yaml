@@ -32,18 +32,26 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      # 打包并生成静态文件
-      - name: Build site
-        run: yarn docs:build
-
-      # 推送静态文件到分支
-      - name: Deploy
-        # 使用别人写好的一个 action
-        uses: peaceiris/actions-gh-pages@v4
-        with:
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@master
+        env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # 打包后的文件部署到哪个分支上
-          publish_branch: blogs
-          # 静态文件生成目录
-          publish_dir: ./docs/.vuepress/dist
-          cname: arashitake.github.io
+          BRANCH: blogs
+          FOLDER: ./docs/.vuepress/dist
+          BUILD_SCRIPT: yarn docs:build
+
+      # 打包并生成静态文件
+      # - name: Build site
+      #   run: yarn docs:build
+
+      # # 推送静态文件到分支
+      # - name: Deploy
+      #   # 使用别人写好的一个 action
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     # 打包后的文件部署到哪个分支上
+      #     publish_branch: blogs
+      #     # 静态文件生成目录
+      #     publish_dir: ./docs/.vuepress/dist
+      #     cname: arashitake.github.io
