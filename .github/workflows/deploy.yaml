@@ -45,5 +45,5 @@ jobs:
           # 打包后的文件部署到哪个分支上
           publish_branch: blogs
           # 静态文件生成目录
-          publish_dir: ./docs/.vuepress/dist
-          cname: arashitake.github.io
+          publish_dir: docs/.vuepress/dist
+          # cname: arashitake.github.io
