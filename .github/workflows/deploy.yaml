@@ -39,12 +39,11 @@ jobs:
       # 推送静态文件到分支
       - name: Deploy
         # 使用别人写好的一个 action
-        # uses: JamesIves/github-pages-deploy-action@releases/v3
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # 打包后的文件部署到哪个分支上
-          branch: blogs
+          publish_branch: blogs
           # 静态文件生成目录
-          publish_dir: docs/.vuepress/dist
+          publish_dir: ./docs/.vuepress/dist
           cname: arashitake.github.io
