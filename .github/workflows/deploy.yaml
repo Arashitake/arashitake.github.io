@@ -3,8 +3,7 @@ name: build-and-deploy
 on:
   # 每当 push 到 master 分支时触发部署
   push:
-    # branches: [master]
-    branches: [1]
+    branches: [master]
 
 # 任务
 jobs:
