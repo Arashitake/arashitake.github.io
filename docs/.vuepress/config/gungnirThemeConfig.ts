@@ -61,7 +61,7 @@ export const gungnirThemeOptions = gungnirTheme({
     },
   },
   footer: `
-    &copy; <a href="https://github.com/Arashitake" target="_blank">Arashitake</a> 2022 ~ 2024
+    &copy; <a href="https://github.com/Arashitake" target="_blank">Arashitake</a> 2022 ~ ${new Date().getFullYear()}
     <br>
     Powered by <a href="https://v2.vuepress.vuejs.org" target="_blank">VuePress</a> &
     <a href="https://github.com/Renovamen/vuepress-theme-gungnir" target="_blank">Gungnir</a>

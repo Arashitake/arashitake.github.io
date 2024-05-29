@@ -23,7 +23,7 @@ cates:
       - catename: theory
         url: /abs/basic/intro.html
         img: /img/cates/network.png
-        desc: network & browser network & browser network & browser
+        desc: network & browser
       - catename: Algorithm
         url: /note/Algorithm/leetcode/934.最短的桥.html
         img: /img/cates/Algorithm1.png
@@ -31,7 +31,11 @@ cates:
       - catename: DataStructure
         url: /note/DataStructure/link/01.链表.html
         img: /img/cates/DataStructure.png
-        desc: "Data Structure -- 数据结构"
+        desc: 数据结构
+      - catename: Git
+        url: /note/DataStructure/link/01.链表.html
+        img: /img/cates/git.png
+        desc: git
   - title: Frame
     items:
       - catename: vue

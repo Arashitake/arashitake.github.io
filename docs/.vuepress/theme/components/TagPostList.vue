@@ -34,30 +34,43 @@
         </div>
       </div>
     </section>
-    <ul class="pagelist">
+    <ul v-if="curPageArr.length <= 7" class="pagelist">
       <li v-for="(item, index) in curPageArr.length" :key="index" @click="switchCurPage(item)">
         <span :class="item - 1 === curPage ? 'item-hover' : ''">{{ item }}</span>
       </li>
+    </ul>
+    <ul v-if="curPageArr.length > 7" class="pagelist">
+      <button v-show="pageListStart !== 2" @click="decreasePageListStart">&lt;</button>
+      <li @click="switchCurPage(1)"><span :class="curPage === 0 ? 'item-hover' : ''">1</span></li>
+      <div v-show="pageListStart !== 2"><span>...</span><span v-show="pageListStart === curPageArr.length - 5">......</span></div>
+      <li v-for="(item, index) in getPageList(pageListStart)" :key="index" @click="switchCurPage(item)">
+        <span :class="item - 1 === curPage ? 'item-hover' : ''">{{ item }}</span>
+      </li>
+      <div v-show="pageListStart !== curPageArr.length - 5"><span>...</span><span v-show="pageListStart === 2">......</span></div>
+      <li @click="switchCurPage(curPageArr.length)">
+        <span :class="curPage === curPageArr.length - 1 ? 'item-hover' : ''">{{ curPageArr.length }}</span>
+      </li>
+      <button v-show="pageListStart !== curPageArr.length - 5" @click="increasePageListStart">&gt;</button>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
   import { PropType, ref, reactive, watch } from "vue";
-  import type { GungnirThemePostData } from "../../shared";
+  // import type { GungnirThemePostData } from "../../shared";
+  import type { GungnirThemePostData } from "../shared";
 
   const props = defineProps({
     data: {
-      type: Array as PropType<Array<{ year: string; data: GungnirThemePostData[] }>>,
+      type: Array as PropType<Array<{ year: string; data: Array<GungnirThemePostData> }>>,
       default: () => [],
     },
   });
 
-  // 转换时间格式
-  const convertTimeFormat = (date) => {
-    return new Date(date).toLocaleDateString().replace(new RegExp("/", "gm"), "-");
-  };
-
+  // 锚点
+  const targetElement = ref<HTMLDivElement | null>(null);
+  // 中间段开始页码
+  const pageListStart = ref(2);
   // 当前页数
   const curPage = ref(0);
   // 分页[每7个]
@@ -67,7 +80,7 @@
   // 截取前7个
   const getCurPageArr = (arr: Array<{ year: string; data: GungnirThemePostData[] }>) => {
     let temp = 0;
-    let tempArr: Array<GungnirThemePostData> = [];
+    let tempArr: Array<{ year: string; data: GungnirThemePostData[] }> = [];
 
     for (let i = 0; i < arr.length; i++) {
       // 没满
@@ -111,14 +124,42 @@
     { immediate: true }
   );
 
-  // 锚点
-  const targetElement = ref<HTMLDivElement | null>(null);
+  // 获取中间段页码函数（5个）
+  const getPageList = (start: number) => {
+    // const PageList = [...Array(end - start +1).keys()].map((i) => i + start)
+    const end = curPageArr.length - 1;
+    let tempPageList = [...Array(5).keys()].map((i) => i + start);
+    if (start <= 2) {
+      pageListStart.value = 2;
+    }
+    if (tempPageList[tempPageList.length - 1] >= end) {
+      pageListStart.value = end - 4;
+    }
+    start = pageListStart.value;
+    tempPageList = [...Array(5).keys()].map((i) => i + start);
+    return tempPageList;
+  };
+  // 中间段开始页码变化
+  // -5
+  const decreasePageListStart = () => {
+    pageListStart.value -= 5;
+  };
+  // +5
+  const increasePageListStart = () => {
+    pageListStart.value += 5;
+  };
+
   // 切换页
   const switchCurPage = (page: number) => {
     curPage.value = page - 1;
     if (targetElement.value) {
       targetElement.value.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  // 转换时间格式
+  const convertTimeFormat = (date) => {
+    return new Date(date).toLocaleDateString().replace(new RegExp("/", "gm"), "-");
   };
 
   getCurPageArr(props.data);
@@ -313,7 +354,7 @@
     justify-content: center;
     list-style-type: none;
 
-    & li {
+    li {
       margin: 0 5px;
       span {
         display: block;
@@ -333,6 +374,22 @@
           border: 1.5px solid #377bb5;
           cursor: pointer;
         }
+      }
+    }
+
+    button {
+      margin: 0 10px;
+      width: 30px;
+      font-size: 20px;
+      background: none;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+
+      &:hover {
+        color: #fff;
+        background: #444;
+        cursor: pointer;
       }
     }
   }

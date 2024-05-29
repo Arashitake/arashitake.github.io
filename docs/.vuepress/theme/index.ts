@@ -12,6 +12,7 @@ export default {
     Categories: path.resolve(__dirname, "layouts/Categories.vue"),
     Notes: path.resolve(__dirname, "layouts/Notes.vue"),
     About: path.resolve(__dirname, "layouts/About.vue"),
+
     // pages template
     Layout: path.resolve(__dirname, "layouts/Layout.vue"),
     Post: path.resolve(__dirname, "layouts/Post.vue"),

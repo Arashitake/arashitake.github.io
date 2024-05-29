@@ -32,17 +32,30 @@
         </div>
       </div>
     </section>
-    <ul class="pagelist">
+    <ul v-if="curPageArr.length <= 7" class="pagelist">
       <li v-for="(item, index) in curPageArr.length" :key="index" @click="switchCurPage(item)">
         <span :class="item - 1 === curPage ? 'item-hover' : ''">{{ item }}</span>
       </li>
+    </ul>
+    <ul v-if="curPageArr.length > 7" class="pagelist">
+      <button v-show="pageListStart !== 2" @click="decreasePageListStart">&lt;</button>
+      <li @click="switchCurPage(1)"><span :class="curPage === 0 ? 'item-hover' : ''">1</span></li>
+      <div v-show="pageListStart !== 2"><span>...</span><span v-show="pageListStart === curPageArr.length - 5">......</span></div>
+      <li v-for="(item, index) in getPageList(pageListStart)" :key="index" @click="switchCurPage(item)">
+        <span :class="item - 1 === curPage ? 'item-hover' : ''">{{ item }}</span>
+      </li>
+      <div v-show="pageListStart !== curPageArr.length - 5"><span>...</span><span v-show="pageListStart === 2">......</span></div>
+      <li @click="switchCurPage(curPageArr.length)">
+        <span :class="curPage === curPageArr.length - 1 ? 'item-hover' : ''">{{ curPageArr.length }}</span>
+      </li>
+      <button v-show="pageListStart !== curPageArr.length - 5" @click="increasePageListStart">&gt;</button>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
   import { reactive, ref, watch } from "vue";
-  import type { notelistByYearType, notelistType } from "../../utils/timelineType";
+  import type { notelistByYearType } from "../../utils/timelineType";
   import { withBase } from "@vuepress/client";
 
   const props = defineProps<{
@@ -50,25 +63,14 @@
     scrollTopDistance: Number;
   }>();
 
-  // 字符串
-  const decodeURL = (path) => {
-    return " 📚 " + decodeURIComponent(path.slice(1, path.lastIndexOf("/")).replace(new RegExp("/", "gm"), " 🔜 "));
-  };
-
-  // 将月份的数字转换为英文
-  const convertMonthFormat = (month) => {
-    let monthMap = new Map();
-    let monthEnArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    monthEnArr.forEach((item, index) => {
-      monthMap.set(index + 1, item);
-    });
-    return monthMap.get(month);
-  };
-
+  // 锚点
+  const targetElement = ref<HTMLDivElement | null>(null);
+  // 中间段开始页码
+  const pageListStart = ref(2);
   // 当前页数
   const curPage = ref(0);
   // 分页[每7个]
-  const perPageNumber = 13;
+  const perPageNumber = 11;
   const curPageArr: notelistByYearType[][] = reactive([]);
   // 截取前7个
   const getCurPageArr = (arr: notelistByYearType[]) => {
@@ -89,25 +91,31 @@
           if (temp < perPageNumber) {
             temp++;
             if (tempArr[tempArr.length - 1].data.has(key)) {
-              const curValArr = tempArr[tempArr.length - 1].data.get(key);
-              curValArr?.push(val[j]);
+              const curValArr = tempArr[tempArr.length - 1].data.get(key) ?? [];
+              curValArr.push(val[j]);
               tempArr[tempArr.length - 1].data.set(key, curValArr);
             } else {
               tempArr[tempArr.length - 1].data.set(key, [val[j]]);
             }
           }
-          // console.log(j, "-tempArr: ", tempArr[tempArr.length - 1].data);
 
           if (temp == perPageNumber) {
             // 一个分页面
             curPageArr.push(tempArr);
             tempArr = [];
+
             tempArr.push({ year: arr[i].year, data: new Map() });
             temp = 0;
           }
         }
         keyIndex++;
       }
+      // 避免错误：在一年最后一月的最后一篇已经被截走了，但还是新增了这一年的一个新行{year:202x,data: map(0) }
+      if (tempArr.length > 0 && tempArr[tempArr.length - 1].data.size == 0) {
+        // console.log("year:", tempArr[tempArr.length - 1].year);
+        tempArr.splice(-1);
+      }
+      // 最后一页
       if (i == arr.length - 1 && tempArr[tempArr.length - 1].data.size != 0) {
         curPageArr.push(tempArr);
       }
@@ -131,14 +139,52 @@
     { immediate: true }
   );
 
-  // 锚点
-  const targetElement = ref<HTMLDivElement | null>(null);
+  // 获取中间段页码函数（5个）
+  const getPageList = (start: number) => {
+    // const PageList = [...Array(end - start +1).keys()].map((i) => i + start)
+    const end = curPageArr.length - 1;
+    let tempPageList = [...Array(5).keys()].map((i) => i + start);
+    if (start <= 2) {
+      pageListStart.value = 2;
+    }
+    if (tempPageList[tempPageList.length - 1] >= end) {
+      pageListStart.value = end - 4;
+    }
+    start = pageListStart.value;
+    tempPageList = [...Array(5).keys()].map((i) => i + start);
+    return tempPageList;
+  };
+  // 中间段开始页码变化
+  // -5
+  const decreasePageListStart = () => {
+    pageListStart.value -= 5;
+  };
+  // +5
+  const increasePageListStart = () => {
+    pageListStart.value += 5;
+  };
+
   // 切换页
   const switchCurPage = (page: number) => {
     curPage.value = page - 1;
     if (targetElement.value) {
       targetElement.value.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  // 字符串
+  const decodeURL = (path) => {
+    return " 📚 " + decodeURIComponent(path.slice(1, path.lastIndexOf("/")).replace(new RegExp("/", "gm"), " 🔜 "));
+  };
+
+  // 将月份的数字转换为英文
+  const convertMonthFormat = (month) => {
+    let monthMap = new Map();
+    let monthEnArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    monthEnArr.forEach((item, index) => {
+      monthMap.set(index + 1, item);
+    });
+    return monthMap.get(month);
   };
 
   getCurPageArr(props.data);
@@ -321,7 +367,7 @@
     justify-content: center;
     list-style-type: none;
 
-    & li {
+    li {
       margin: 0 5px;
       span {
         display: block;
@@ -330,6 +376,7 @@
         line-height: 30px;
         text-align: center;
         color: #fff;
+        font-size: 15px;
         font-weight: bold;
         background-color: #377bb5;
         border: 1.5px solid #377bb5;
@@ -341,6 +388,22 @@
           border: 1.5px solid #377bb5;
           cursor: pointer;
         }
+      }
+    }
+
+    button {
+      margin: 0 10px;
+      width: 30px;
+      font-size: 20px;
+      background: none;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+
+      &:hover {
+        color: #fff;
+        background: #444;
+        cursor: pointer;
       }
     }
   }
