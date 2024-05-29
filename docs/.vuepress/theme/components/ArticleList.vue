@@ -1,229 +1,351 @@
 <template>
-  <section v-for="(item, index) in data" :key="index">
-    <span class="year">{{ item.year }}</span>
+  <div class="article-box">
+    <div class="scroll-ele" :style="{ top: scrollTopDistance + 'px' }" ref="targetElement"></div>
+    <section v-for="(item, index) in Object.values(curPageArr)[curPage]" :key="index">
+      <span class="year">{{ item.year }}</span>
 
-    <div v-for="(mapItem, mapIndex) in item.data" :key="mapIndex" class="notelist">
-      <div class="month-icon">
-        {{ convertMonthFormat(mapItem[0]) }}
-      </div>
-      <div v-for="(subItem, subIndex) in mapItem[1]" :key="subIndex" class="notelist-month">
-        <div class="item-icon"></div>
-        <RouterLink :to="subItem.path">
-          <div class="note-items">
-            <div class="note-date">
-              <img v-if="subItem.frontmatter.headerImage" :src="withBase(subItem.frontmatter.headerImage)" alt="" />
-              <p>
-                <span>{{ subItem.date.slice(subItem.date.indexOf('-') + 1, subItem.date.lastIndexOf('-')) }}</span> /
-                {{ subItem.date.slice(subItem.date.lastIndexOf('-') + 1) }}
-              </p>
+      <div v-for="(mapItem, mapIndex) in item.data" :key="mapIndex" class="notelist">
+        <div class="month-icon">
+          {{ convertMonthFormat(mapItem[0]) }}
+        </div>
+        <div v-for="(subItem, subIndex) in mapItem[1]" :key="subIndex" class="notelist-month">
+          <div class="item-icon"></div>
+          <RouterLink :to="subItem.path">
+            <div class="note-items">
+              <div class="note-date">
+                <img v-if="subItem.frontmatter.headerImage" :src="withBase(subItem.frontmatter.headerImage)" alt="" />
+                <p>
+                  <span>{{ subItem.date.slice(subItem.date.indexOf("-") + 1, subItem.date.lastIndexOf("-")) }}</span> /
+                  {{ subItem.date.slice(subItem.date.lastIndexOf("-") + 1) }}
+                </p>
+              </div>
+              <div class="note-content">
+                <p class="title">
+                  {{ subItem.title }}
+                </p>
+                <span v-if="subItem.date" class="subtitle">
+                  {{ decodeURL(subItem.path) }}
+                </span>
+              </div>
             </div>
-            <div class="note-content">
-              <p class="title">
-                {{ subItem.title }}
-              </p>
-              <span v-if="subItem.date" class="subtitle">
-                {{ decodeURL(subItem.path) }}
-              </span>
-            </div>
-          </div>
-        </RouterLink>
+          </RouterLink>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <ul class="pagelist">
+      <li v-for="(item, index) in curPageArr.length" :key="index" @click="switchCurPage(item)">
+        <span :class="item - 1 === curPage ? 'item-hover' : ''">{{ item }}</span>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { notelistByYearType } from "../../utils/timelineType";
-import { withBase } from "@vuepress/client";
+  import { reactive, ref, watch } from "vue";
+  import type { notelistByYearType, notelistType } from "../../utils/timelineType";
+  import { withBase } from "@vuepress/client";
 
-defineProps<{
-  data: Array<notelistByYearType>
-}>();
+  const props = defineProps<{
+    data: Array<notelistByYearType>;
+    scrollTopDistance: Number;
+  }>();
 
-// 字符串
-const decodeURL = (path) => {
-  return " 📚 " + decodeURIComponent(path.slice(1, path.lastIndexOf('/')).replace(new RegExp('/', "gm"), ' 🔜 '));
-}
+  // 字符串
+  const decodeURL = (path) => {
+    return " 📚 " + decodeURIComponent(path.slice(1, path.lastIndexOf("/")).replace(new RegExp("/", "gm"), " 🔜 "));
+  };
 
-// 将月份的数字转换为英文
-const convertMonthFormat = (month) => {
-  let monthMap = new Map();
-  let monthEnArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",]
-  monthEnArr.forEach((item, index) => {
-    monthMap.set(index + 1, item);
-  });
-  return monthMap.get(month);
-}
+  // 将月份的数字转换为英文
+  const convertMonthFormat = (month) => {
+    let monthMap = new Map();
+    let monthEnArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    monthEnArr.forEach((item, index) => {
+      monthMap.set(index + 1, item);
+    });
+    return monthMap.get(month);
+  };
 
+  // 当前页数
+  const curPage = ref(0);
+  // 分页[每7个]
+  const perPageNumber = 13;
+  const curPageArr: notelistByYearType[][] = reactive([]);
+  // 截取前7个
+  const getCurPageArr = (arr: notelistByYearType[]) => {
+    let temp = 0;
+    let tempArr: notelistByYearType[] = [];
 
+    for (let i = 0; i < arr.length; i++) {
+      // 没满
+      if (temp < perPageNumber) {
+        tempArr.push({ year: arr[i].year, data: new Map() });
+      }
+      // 将 Map 对象的键转换为数组
+      const keysArray = Array.from(arr[i].data.keys());
+      let keyIndex = 0;
+      for (let val of arr[i].data.values()) {
+        let key = keysArray[keyIndex];
+        for (let j = 0; j < val.length; j++) {
+          if (temp < perPageNumber) {
+            temp++;
+            if (tempArr[tempArr.length - 1].data.has(key)) {
+              const curValArr = tempArr[tempArr.length - 1].data.get(key);
+              curValArr?.push(val[j]);
+              tempArr[tempArr.length - 1].data.set(key, curValArr);
+            } else {
+              tempArr[tempArr.length - 1].data.set(key, [val[j]]);
+            }
+          }
+          // console.log(j, "-tempArr: ", tempArr[tempArr.length - 1].data);
+
+          if (temp == perPageNumber) {
+            // 一个分页面
+            curPageArr.push(tempArr);
+            tempArr = [];
+            tempArr.push({ year: arr[i].year, data: new Map() });
+            temp = 0;
+          }
+        }
+        keyIndex++;
+      }
+      if (i == arr.length - 1 && tempArr[tempArr.length - 1].data.size != 0) {
+        curPageArr.push(tempArr);
+      }
+    }
+
+    // console.log("curPageArr:", Object.values(curPageArr));
+  };
+
+  let oldData = props.data;
+  // 监听props.data的变化
+  watch(
+    () => props.data,
+    (newData) => {
+      if (oldData !== newData) {
+        oldData = newData;
+        curPageArr.length = 0; // 清空
+        getCurPageArr(newData);
+        curPage.value = 0; // 重置当前页数
+      }
+    },
+    { immediate: true }
+  );
+
+  // 锚点
+  const targetElement = ref<HTMLDivElement | null>(null);
+  // 切换页
+  const switchCurPage = (page: number) => {
+    curPage.value = page - 1;
+    if (targetElement.value) {
+      targetElement.value.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  getCurPageArr(props.data);
 </script>
 
 <style lang="scss" scoped>
-section {
-  margin: 0;
-  padding: 0;
-  // border: 1px solid #0ff;
-}
-
-.dark .item-icon::before {
-  border: 2px solid #2d3746 !important;
-
-}
-
-.year {
-  display: block;
-  position: relative;
-  margin: 0;
-  padding: 18px 0 20px;
-  width: 112px;
-  color: var(--c-brand);
-  font-size: 22px;
-  font-family: 'Arvo';
-  font-style: italic;
-  font-weight: bold;
-  border-right: 1px solid #cbcbcb;
-}
-
-.notelist {
-  position: relative;
-  left: 112px;
-  border-left: 1px solid #cbcbcb;
-
-  .month-icon {
+  .article-box {
+    position: relative;
+  }
+  .scroll-ele {
     position: absolute;
-    top: 24px;
-    left: -21px;
-    width: 42px;
-    height: 42px;
-    line-height: 42px;
-    text-align: center;
-    color: #fff;
-    font-size: 15px;
-    font-family: 'Segoe Print';
-    font-style: italic;
-    background: var(--c-brand);
-    border-radius: 100%;
-    z-index: 5;
+  }
+  section {
+    margin: 0;
+    padding: 0;
+    // border: 1px solid #0ff;
   }
 
-  .notelist-month {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    // border: 1px solid #f00;
+  .dark .item-icon::before {
+    border: 2px solid #2d3746 !important;
+  }
 
-    .item-icon {
-      display: block;
+  .year {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 18px 0 20px;
+    width: 112px;
+    color: var(--c-brand);
+    font-size: 22px;
+    font-family: "Arvo";
+    font-style: italic;
+    font-weight: bold;
+    border-right: 1px solid #cbcbcb;
+  }
+
+  .notelist {
+    position: relative;
+    left: 112px;
+    border-left: 1px solid #cbcbcb;
+
+    .month-icon {
       position: absolute;
-      left: -9px;
-      width: 18px;
-      height: 18px;
+      top: 24px;
+      left: -21px;
+      width: 42px;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      color: #fff;
+      font-size: 15px;
+      font-family: "Segoe Print";
+      font-style: italic;
       background: var(--c-brand);
       border-radius: 100%;
-      // border: 5px double #fff;
-
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 10px;
-        height: 10px;
-        border-radius: 100%;
-        border: 2px solid #fff;
-        z-index: 2;
-      }
+      z-index: 5;
     }
 
-    .note-items {
+    .notelist-month {
+      width: 100%;
       display: flex;
-      margin: 10px 0 10px 52px;
-      width: 600px;
-      height: 72px;
-      border-radius: 4px;
-      border: 1px solid #e7e7e7;
-      background: #fafafa;
-      transition: all ease 0.3s;
-      -webkit-transition: all ease 0.3s;
+      align-items: center;
+      // border: 1px solid #f00;
 
-      &:hover {
-        transform: scale(1.02);
-        box-shadow: 0 2px 8px 0 rgba(27, 35, 47, 0.25);
+      .item-icon {
+        display: block;
+        position: absolute;
+        left: -9px;
+        width: 18px;
+        height: 18px;
+        background: var(--c-brand);
+        border-radius: 100%;
+        // border: 5px double #fff;
+
+        &::before {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 10px;
+          height: 10px;
+          border-radius: 100%;
+          border: 2px solid #fff;
+          z-index: 2;
+        }
       }
 
-      .note-date {
-        position: relative;
-        padding: 0px 8px;
-        margin: 6px 8px;
-        font-style: italic;
-        font-size: 16px;
-        font-family: 'Arvo';
+      .note-items {
+        display: flex;
+        margin: 10px 0 10px 52px;
+        width: 600px;
+        height: 72px;
         border-radius: 4px;
-        overflow: hidden;
-        z-index: 5;
+        border: 1px solid #e7e7e7;
+        background: #fafafa;
+        transition: all ease 0.3s;
+        -webkit-transition: all ease 0.3s;
 
-        &>img {
-          position: absolute;
-          left: -15px;
-          height: 60px;
-          z-index: -1;
+        &:hover {
+          transform: scale(1.02);
+          box-shadow: 0 2px 8px 0 rgba(27, 35, 47, 0.25);
         }
 
-        img+p {
-          color: #fff;
-          text-shadow: 1px 1px 2px #333;
-        }
+        .note-date {
+          position: relative;
+          padding: 0px 8px;
+          margin: 6px 8px;
+          font-style: italic;
+          font-size: 16px;
+          font-family: "Arvo";
+          border-radius: 4px;
+          overflow: hidden;
+          z-index: 5;
 
-        p {
-          margin-top: 8px;
-          color: #333333;
+          & > img {
+            position: absolute;
+            left: -15px;
+            height: 60px;
+            z-index: -1;
+          }
 
-          // 月份
-          span {
-            font-size: 24px;
+          img + p {
+            color: #fff;
+            text-shadow: 1px 1px 2px #333;
+          }
+
+          p {
+            margin-top: 8px;
+            color: #333333;
+
+            // 月份
+            span {
+              font-size: 24px;
+            }
           }
         }
 
-      }
+        .note-content {
+          width: calc(100% - 124px);
+          position: relative;
 
-      .note-content {
-        width: calc(100% - 124px);
-        position: relative;
+          .title {
+            display: -webkit-box;
+            position: absolute;
+            padding-left: 10px;
+            width: 100%;
+            height: 30px;
+            line-height: 25px;
+            top: -2px;
+            left: 12px;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            color: #333333;
+            border-bottom: 1px solid #cccccc;
+          }
 
-        .title {
-          display: -webkit-box;
-          position: absolute;
-          padding-left: 10px;
-          width: 100%;
-          height: 30px;
-          line-height: 25px;
-          top: -2px;
-          left: 12px;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-          overflow: hidden;
-          color: #333333;
-          border-bottom: 1px solid #cccccc;
-        }
-
-        .subtitle {
-          display: -webkit-box;
-          position: absolute;
-          width: 400px;
-          top: 22px;
-          left: 24px;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-          overflow: hidden;
-          color: #404040;
-          font-size: 13px;
-          font-family: 'Segoe Script', 'Arvo';
+          .subtitle {
+            display: -webkit-box;
+            position: absolute;
+            width: 400px;
+            top: 22px;
+            left: 24px;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            color: #404040;
+            font-size: 13px;
+            font-family: "Segoe Script", "Arvo";
+          }
         }
       }
     }
   }
+  /* 页码模块 */
+  .pagelist {
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+    list-style-type: none;
 
+    & li {
+      margin: 0 5px;
+      span {
+        display: block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+        background-color: #377bb5;
+        border: 1.5px solid #377bb5;
+        border-radius: 50%;
 
-}
+        &:hover {
+          color: #377bb5;
+          background-color: #fff;
+          border: 1.5px solid #377bb5;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .item-hover {
+    color: #377bb5 !important;
+    background-color: #fff !important;
+  }
 </style>

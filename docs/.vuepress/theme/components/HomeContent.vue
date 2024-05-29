@@ -1,7 +1,7 @@
 <template>
   <div class="home-content">
     <div class="left-part">
-      <ArticleList :data="allListFilterByYear(alllist)" />
+      <ArticleList :data="allListFilterByYear(alllist)" :scrollTopDistance="-57" />
     </div>
     <div class="right-part">
       <div class="person-panel">
