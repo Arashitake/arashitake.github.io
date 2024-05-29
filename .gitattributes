@@ -1,9 +1,6 @@
-*.html linguist-language=HTML
-*.css linguist-language=CSS
 *.js linguist-language=JavaScript
 *.ts linguist-language=TypeScript
 *.md linguist-language=Markdown
 *.vue linguist-language=Vue
-*scss linguist-language=SCSS
+*.scss linguist-language=SCSS
 *.json linguist-language=JSON
-*.sh linguist-language=Shell
