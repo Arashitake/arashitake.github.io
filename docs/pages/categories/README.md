@@ -33,8 +33,9 @@ cates:
         img: /img/cates/DataStructure.png
         desc: 数据结构
       - catename: Git
-        url: /note/DataStructure/link/01.链表.html
-        img: /img/cates/git.png
+        url: /note/Git/01_gitCommand/01.git设置.html
+        # img: /img/cates/git.png
+        img: https://avatars.githubusercontent.com/u/18133?s=48&v=4
         desc: git
   - title: Frame
     items:
