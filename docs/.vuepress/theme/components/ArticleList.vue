@@ -116,7 +116,7 @@
         tempArr.splice(-1);
       }
       // 最后一页
-      if (i == arr.length - 1 && tempArr[tempArr.length - 1].data.size != 0) {
+      if (i == arr.length - 1 && tempArr.length > 0 && tempArr[tempArr.length - 1].data.size != 0) {
         curPageArr.push(tempArr);
       }
     }
