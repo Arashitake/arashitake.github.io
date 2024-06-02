@@ -5,25 +5,30 @@ cates:
   - title: Basic
     items:
       - catename: HTML
-        url: /abs/basic/intro.html
+        url: /note/HTML/HTML基础/00.HTML基础.html
         img: /img/cates/html.png
         desc: HTML
       - catename: CSS
-        url: /note/CSS/01_CSS基础/01.balabala.html
+        url: /note/CSS/01_CSS基础/00.CSS基础.html
         img: /img/cates/css.png
         desc: CSS
       - catename: JS
-        url: /note/JS/01_JS高级/01.EventLoop.html
+        url: /note/JS/00_JS基础/01.基础类型.html
         img: /img/cates/js.png
         desc: about JS
+      - catename: AJAX
+        url: /note/AJAX/1_Basic/1.AJAX基础.html
+        img: /img/cates/ts.png
+        desc: AJAX、axios
       - catename: TS
         url: /abs/basic/intro.html
         img: /img/cates/ts.png
         desc: learning TypeScript
-      - catename: theory
-        url: /abs/basic/intro.html
-        img: /img/cates/network.png
-        desc: network & browser
+      - catename: Git
+        url: /note/Git/01_gitCommand/01.git设置.html
+        # img: /img/cates/git.png
+        img: https://avatars.githubusercontent.com/u/18133?s=48&v=4
+        desc: git
       - catename: Algorithm
         url: /note/Algorithm/leetcode/934.最短的桥.html
         img: /img/cates/Algorithm1.png
@@ -32,11 +37,11 @@ cates:
         url: /note/DataStructure/link/01.链表.html
         img: /img/cates/DataStructure.png
         desc: 数据结构
-      - catename: Git
-        url: /note/Git/01_gitCommand/01.git设置.html
-        # img: /img/cates/git.png
-        img: https://avatars.githubusercontent.com/u/18133?s=48&v=4
-        desc: git
+      - catename: theory
+        url: /note/theory/1_browser/01.html
+        img: /img/cates/network.png
+        desc: network & browser
+
   - title: Frame
     items:
       - catename: vue
