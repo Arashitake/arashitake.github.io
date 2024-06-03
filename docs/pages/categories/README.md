@@ -13,7 +13,7 @@ cates:
         img: /img/cates/css.png
         desc: CSS
       - catename: JS
-        url: /note/JS/00_JS基础/01.基础类型.html
+        url: /note/JS/00_JS基础/01.数据类型.html
         img: /img/cates/js.png
         desc: about JS
       - catename: AJAX

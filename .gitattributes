@@ -1,2 +1,7 @@
-# *.scss linguist-language=SCSS
-# *.json linguist-language=JSON
+*.js linguist-language=JavaScript
+*.vue linguist-language=Vue
+*.css linguist-language=CSS
+*.md linguist-language=Markdown
+
+# Exclude shell script from language statistics
+deploy.sh linguist-vendored
