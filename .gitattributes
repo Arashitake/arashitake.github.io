@@ -5,3 +5,7 @@
 
 # Exclude shell script from language statistics
 deploy.sh linguist-vendored
+node_modules/* linguist-vendored
+dist/* linguist-vendored
+docs/* linguist-documentation
+.github/* linguist-vendored
