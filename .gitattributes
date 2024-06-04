@@ -1,11 +1,20 @@
 *.js linguist-language=JavaScript
+*.ts linguist-language=TypeScript
 *.vue linguist-language=Vue
 *.css linguist-language=CSS
 *.md linguist-language=Markdown
+
+# 启动语言统计
+*.js linguist-detectable=true
+*.ts linguist-detectable=true
+*.vue linguist-detectable=true
+*.css linguist-detectable=true
+*.md linguist-detectable=true
 
 # Exclude shell script from language statistics
 deploy.sh linguist-vendored
 node_modules/* linguist-vendored
 dist/* linguist-vendored
-docs/* linguist-documentation
+out/* linguist-vendored
 .github/* linguist-vendored
+.yarn/* linguist-vendored
