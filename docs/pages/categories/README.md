@@ -30,7 +30,7 @@ cates:
         img: https://avatars.githubusercontent.com/u/18133?s=48&v=4
         desc: git
       - catename: Algorithm
-        url: /note/Algorithm/leetcode/934.最短的桥.html
+        url: /note/Algorithm/common/01.排序算法.html
         img: /img/cates/Algorithm1.png
         desc: 算法
       - catename: DataStructure
