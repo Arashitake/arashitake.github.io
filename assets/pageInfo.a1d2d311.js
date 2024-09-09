@@ -1,0 +1,1 @@
+const t={title:"Notes",subtitle:"timeline of notes",bgImage:{mask:"rgba(64,118,190,0.5)",path:"/img/homebg/1.jpg"}},e={title:"Categories",subtitle:"book",bgImage:{path:"/img/pages/004.jpg",mask:"rgba(64, 118, 190, 0.4)"}},a={title:"About",subtitle:"About me.",bgImage:{path:"/img/pages/001.jpg",mask:"rgba(40, 57, 101, 0.2)"}};export{a,e as c,t as n};

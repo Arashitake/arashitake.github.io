@@ -1,0 +1,57 @@
+import{_ as n,o as s,c as a,d as t}from"./app.0d4c2068.js";const p={},o=t(`<div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token doc-comment comment">/**
+ * \u5B9E\u73B0\u4E00\u4E2A\u65B9\u6CD5\uFF0C\u6839\u636E\u62EC\u53F7\u7684\u95ED\u5408\u5173\u7CFB\uFF0C\u8F93\u51FA\u5B57\u7B26\u4E32\u4E2D\u7F3A\u5931\u7684\u3002
+ * \uFF08\u6CE8\uFF1A\u62EC\u53F7\u9075\u5FAA\u6700\u8FD1\u95ED\u5408\uFF0C\u4F8B\u5982 <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token punctuation">}</span> \u5219\u5728\u7B2C2\u4F4D\u7F3A\u5931 \u2018<span class="token punctuation">}</span>\u2019\uFF09
+ *
+ * \u8F93\u5165\u63CF\u8FF0\uFF1A
+ * 1. (())<span class="token punctuation">{</span>[<span class="token punctuation">}</span><span class="token punctuation">{</span><span class="token punctuation">}</span>[]
+ * 2. <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span>[]()
+ * 3. <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+ * \u8F93\u51FA\u63CF\u8FF0\uFF1A
+ * 1. ], 7
+ * 2. <span class="token punctuation">{</span>, 3
+ * 3. <span class="token punctuation">{</span>, 5
+ */</span>
+
+<span class="token keyword">const</span> <span class="token constant">MATCH_BRACE_TABLE</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string-property property">&quot;)&quot;</span><span class="token operator">:</span> <span class="token string">&quot;(&quot;</span><span class="token punctuation">,</span>
+  <span class="token string-property property">&quot;]&quot;</span><span class="token operator">:</span> <span class="token string">&quot;[&quot;</span><span class="token punctuation">,</span>
+  <span class="token string-property property">&quot;}&quot;</span><span class="token operator">:</span> <span class="token string">&quot;{&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token constant">BRACE_PAIRS</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string-property property">&quot;(&quot;</span><span class="token operator">:</span> <span class="token string">&quot;)&quot;</span><span class="token punctuation">,</span>
+  <span class="token string-property property">&quot;[&quot;</span><span class="token operator">:</span> <span class="token string">&quot;]&quot;</span><span class="token punctuation">,</span>
+  <span class="token string-property property">&quot;{&quot;</span><span class="token operator">:</span> <span class="token string">&quot;}&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">missing_brace</span><span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> s <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> idx <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> cur_brace <span class="token keyword">of</span> str<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>cur_brace <span class="token keyword">in</span> <span class="token constant">BRACE_PAIRS</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// \u5DE6\u62EC\u53F7</span>
+      s<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>cur_brace<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">// \u53F3\u62EC\u53F7</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> top <span class="token operator">=</span> s<span class="token punctuation">[</span>s<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>top <span class="token operator">==</span> <span class="token constant">MATCH_BRACE_TABLE</span><span class="token punctuation">[</span>cur_brace<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          s<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token comment">// \u62EC\u53F7\u4E0D\u5339\u914D</span>
+          <span class="token keyword">const</span> missing <span class="token operator">=</span> <span class="token constant">BRACE_PAIRS</span><span class="token punctuation">[</span>top<span class="token punctuation">]</span><span class="token punctuation">;</span>
+          <span class="token keyword">return</span> <span class="token punctuation">[</span>missing<span class="token punctuation">,</span> idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// \u6808\u7A7A\uFF0C\u4E0D\u5408\u6CD5</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token constant">MATCH_BRACE_TABLE</span><span class="token punctuation">[</span>cur_brace<span class="token punctuation">]</span><span class="token punctuation">,</span> idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    idx<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> s<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token punctuation">[</span><span class="token constant">BRACE_PAIRS</span><span class="token punctuation">[</span>s<span class="token punctuation">[</span>s<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span> idx<span class="token punctuation">]</span> <span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;&quot;</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">missing_brace</span><span class="token punctuation">(</span><span class="token string">&quot;(()){[}{}[]&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">missing_brace</span><span class="token punctuation">(</span><span class="token string">&quot;{}}[]()&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">missing_brace</span><span class="token punctuation">(</span><span class="token string">&quot;{{}}}&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,1),c=[o];function e(u,i){return s(),a("div",null,c)}var k=n(p,[["render",e],["__file","01.\u5339\u914D\u5B57\u7B26\u4E32.html.vue"]]);export{k as default};
